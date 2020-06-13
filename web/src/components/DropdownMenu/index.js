@@ -41,8 +41,12 @@ function DropdownMenu() {
                             leftIcon={<RightIcon/>}
                             rightIcon={<SteeringIcon/>}
                             goToMenu="settings">
-                                Settings
+                                First Menu
                     </DropdownItem>
+                    <DropdownItem
+                            leftIcon={<RightIcon/>}
+                            rightIcon={<SteeringIcon/>}
+                            goToMenu="animals">Second Menu</DropdownItem>
                 </div>
             </CSSTransition>
 
@@ -54,18 +58,21 @@ function DropdownMenu() {
             onEnter={calcHeight}>
                 <div className="menu">
                     <DropdownItem leftIcon={<LeftIcon/>} goToMenu="main">Voltar</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
+                    <DropdownItem>This is the first menu</DropdownItem>
+                    <DropdownItem>First Menu</DropdownItem>
+                </div>
+            </CSSTransition>
+
+            <CSSTransition 
+            in={activeMenu === 'animals'} 
+            unmountOnExit 
+            timeout={500}
+            classNames="menu-secondary"
+            onEnter={calcHeight}>
+                <div className="menu">
+                    <DropdownItem leftIcon={<LeftIcon/>} goToMenu="main">Voltar</DropdownItem>
+                    <DropdownItem>This is the second menu</DropdownItem>
+                    <DropdownItem>Second Menu</DropdownItem>
                 </div>
             </CSSTransition>
         </div>
