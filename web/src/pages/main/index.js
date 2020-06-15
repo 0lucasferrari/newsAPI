@@ -3,12 +3,11 @@ import api from '../../services/api'
 import './styles.css'
 
 export default class Main extends Component {
+
     state = {
         apiKey: '6f0e5cb8b8ec4cdcace917abb23157e5',
-        country: 'us',
+        country: 'br',
         articles: [],
-        totalResults: 0,
-        status: 'none',
         pageSize: 5,
         page: 1
     }
@@ -17,23 +16,46 @@ export default class Main extends Component {
         this.loadNews();
     }
 
-    loadNews = async () => {
-        const response = await api.get(`/top-headlines?country=${this.state.country}&pageSize=${this.state.pageSize}&page=${this.state.page}&apiKey=${this.state.apiKey}`);
-
-        const { status, totalResults, articles } = response.data;
-
-        this.setState({ status, totalResults, articles })
+    componentDidUpadte(prevState) {
+        if(prevState.country !== this.state.country) {
+            this.loadNews()
+        }
     }
 
-    
+    loadNews = async (page = 1) => {
+        const response = await api.get(`/top-headlines?country=${this.state.country}&pageSize=${this.state.pageSize}&page=${page}&apiKey=${this.state.apiKey}`);
+        const { status, totalResults, articles} = response.data;
+        const { pageSize } = this.state
+        const pages = Math.ceil(totalResults / pageSize);    
+        this.setState({ status, totalResults, articles, pages})
+    }
+
+    prevPage = () => {
+        const { page } = this.state;
+        if ( page === 1 ) return;
+        const pageNumber = page - 1;
+        this.setState({ page: pageNumber });
+        this.loadNews(pageNumber)
+    }
+
+    nextPage = () => {
+        const { page, pages } = this.state;
+        if (page === pages) return;
+        const pageNumber = page + 1;
+        this.setState({ page: pageNumber })
+        this.loadNews(pageNumber)
+    }
 
     render () {
-        const { articles, totalResults } = this.state;
+        const { articles, pages, totalResults, pageSize, page } = this.state;
 
         return(
             <div className="articles-list">
+                <div className="information-box">
+                    Exibindo as {totalResults} principais notícias ({pageSize} notícias por página)
+                </div>
                 {articles.map(article =>(
-                    <article>
+                    <article key={article.title}>
                         <div>
                             <img className="article-image" src={article.urlToImage} />
                         </div>
@@ -47,8 +69,9 @@ export default class Main extends Component {
                     </article>
                 ))}
                 <div className="actions">
-                    <button>Anterior</button>
-                    <button>Próxima</button>
+                    <button disabled={page===1} onClick={this.prevPage}>Anterior</button>
+                        <span>Pagina {page} de {pages}</span>
+                    <button disabled={page===pages} onClick={this.nextPage}>Próxima</button>
                 </div>
             </div>
         )

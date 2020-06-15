@@ -75,3 +75,7 @@
     transform: translateX(110%);
     transition: all var(--speed) ease;
 }
+
+.ml {
+    margin-left: 10px;
+}
