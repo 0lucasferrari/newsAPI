@@ -1,3 +1,1 @@
-Uma página de notícias com um menu dropdown simples para selecionar país e categoria de notícias, desenvolvido em ReactJS.
-
-Utiliza a API de notícias da newsAPI (disponível em: https://newsapi.org/)
+A newspaper with a simple dropdown menu for selecting news category and country, built using ReactJS and the newsapi (https://newsapi.org/).
